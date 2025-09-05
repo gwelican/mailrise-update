@@ -1,0 +1,38 @@
+---
+name: Push to GitHub Packages
+
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  latest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: https://github.com/YoRyan/mailrise
+          path: mailrise
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Apply patch
+        working-directory: mailrise
+        run: git apply ../apprise-patch.diff
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push
+        uses: ./.github/actions/docker-build
+        with:
+          images: ghcr.io/gwelican/mailrise
