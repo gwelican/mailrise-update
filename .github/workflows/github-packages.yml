@@ -22,7 +22,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: YoRyan/mailrise
-          path: mailrise
       - name: Checkout
         uses: actions/checkout@v4
         with:
