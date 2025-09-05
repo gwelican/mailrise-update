@@ -20,11 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           repository: YoRyan/mailrise
           path: mailrise
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Apply patch
         run: find .
       - name: Apply patch
