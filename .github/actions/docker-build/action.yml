@@ -7,6 +7,10 @@ inputs:
     required: true
   flavor:
     description: Global behavior for tags
+  version:
+    description: Version to build
+    required: false
+    default: ""
 
 runs:
   using: composite
@@ -24,11 +28,8 @@ runs:
           latest=false
           ${{ inputs.flavor }}
         tags: |
-          type=schedule
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}
-          type=raw,value=stable,enable=${{ startsWith(github.ref, 'refs/tags') }}
-          type=raw,value=latest,enable={{is_default_branch}}
+          # renovate: datasource=github-releases depName=YoRyan/mailrise
+          type=raw,value=1.3.0
     - name: Build and push
       id: docker_build
       uses: docker/build-push-action@v3
@@ -38,5 +39,3 @@ runs:
         platforms: linux/amd64
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        # renovate: datasource=github-releases depName=YoRyan/mailrise
-        version: "1.3.0"
