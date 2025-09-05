@@ -20,24 +20,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Checkout
-        uses: actions/checkout@v4
         with:
           repository: YoRyan/mailrise
           path: mailrise
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: builder
       - name: Apply patch
-        working-directory: mailrise
-        run: git apply ../apprise.patch
+        run: git apply builder/apprise.patch
       - name: check file
         run: cat setup.cfg
-        working-directory: mailrise
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          path: mailrise
       - name: Build and Push
         uses: ./.github/actions/docker-build
         with:
