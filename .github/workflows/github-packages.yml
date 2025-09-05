@@ -26,10 +26,11 @@ jobs:
           repository: YoRyan/mailrise
           path: mailrise
       - name: Apply patch
-        run: find .
-      - name: Apply patch
         working-directory: mailrise
         run: git apply ../apprise.patch
+      - name: check file
+        run: cat setup.cfg
+        working-directory: mailrise
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
