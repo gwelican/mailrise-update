@@ -1,5 +1,7 @@
 ---
 name: Push to GitHub Packages
+# renovate: datasource=github-releases depName=YoRyan/mailrise
+#version:
 
 on:
   push:
@@ -24,8 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Apply patch
-        working-directory: mailrise
-        run: find ..
+        run: find .
       - name: Apply patch
         working-directory: mailrise
         run: git apply ../apprise-patch.diff
