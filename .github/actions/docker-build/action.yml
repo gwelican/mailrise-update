@@ -1,0 +1,41 @@
+name: Docker build and push
+description: Build container images and push them to a registry
+
+inputs:
+  images:
+    description: Name for built images
+    required: true
+  flavor:
+    description: Global behavior for tags
+  version:
+    description: Version to build
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    # - name: Set up QEMU
+    #   uses: docker/setup-qemu-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ inputs.images }}
+        flavor: |
+          latest=false
+          ${{ inputs.flavor }}
+        tags: |
+          # renovate: datasource=github-releases depName=YoRyan/mailrise
+          type=raw,value=1.3.0
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        platforms: linux/amd64
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
