@@ -1,7 +1,5 @@
 ---
 name: Push to GitHub Packages
-# renovate: datasource=github-releases depName=YoRyan/mailrise
-# version: 1.4.0
 
 on:
   push:
