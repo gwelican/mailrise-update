@@ -1,0 +1,32 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  commitBodyTable: true,
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    ":enablePreCommit",
+    ":automergeDigest",
+    ":automergeBranch",
+    ":timezone(America/Los_Angeles)",
+    ":skipStatusChecks",
+    "docker:enableMajor",
+  ],
+  gitAuthor: "gwelican-bot <38752926+gwelican-bot[bot]@users.noreply.github.com>",
+  regexManagers: [
+    {
+    "fileMatch": [ "^\.github/actions/docker-build/action\.yml$", ],
+    "matchStrings": [    "type=raw,value=(?<currentValue>.*)",    ],
+    "datasourceTemplate": "docker",
+    "depNameTemplate": "ghcr.io/yoryan/mailrise"
+    }
+  ],
+  ignoreTests: true,
+  rebaseWhen: "conflicted",
+  suppressNotifications: [
+    "prIgnoreNotification",
+  ],
+}
+
