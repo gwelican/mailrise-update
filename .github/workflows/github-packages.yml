@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/YoRyan/mailrise
+          repository: YoRyan/mailrise
           path: mailrise
       - name: Checkout
         uses: actions/checkout@v4
