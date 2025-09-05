@@ -36,6 +36,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          path: mailrise
       - name: Build and Push
         uses: ./.github/actions/docker-build
         with:
