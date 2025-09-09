@@ -1,16 +1,12 @@
 ---
-name: Push to GitHub Packages
+name: n8n-workflows to GitHub Packages
 
 on:
-  push:
-    branches:
-      - "master"
-    tags:
-      - "*"
-  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
 
 jobs:
-  latest:
+  docker-build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -19,13 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: YoRyan/mailrise
-      - name: Checkout
+          repository: Zie619/n8n-workflows
+      - name: Checkout builder
         uses: actions/checkout@v4
         with:
           path: builder
-      - name: Apply patch
-        run: git apply builder/apprise.patch
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -33,6 +27,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and Push
-        uses: ./builder/.github/actions/docker-build
+        uses: ./builder/.github/actions/n8n-workflows/docker-build
         with:
-          images: ghcr.io/gwelican/mailrise
+          images: ghcr.io/gwelican/n8n-workflows
